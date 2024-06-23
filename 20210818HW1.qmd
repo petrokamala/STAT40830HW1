@@ -1,6 +1,6 @@
 ---
 title: "Homework1"
-author: "Peter Kamala - 20210818"
+author: "Peter J. Kamala - 20210818"
 format: 
   revealjs:
     theme: solarized
@@ -66,14 +66,6 @@ ggplot(ukgas_long, aes(x = Year, y = GasConsumption, color = Quarter)) +
 
 The above plot visualizes UK quarterly gas consumption from <b>1960</b> to <b>1986</b>, relatively higher consumption is observed during quarter 1 across all the years, could be due to being a cold season, also relatively low consumption is observed on quarter 3, could be due to being a warm season.
 
-```{r}
-usethis::git_sitrep()
-```
-
-```{r}
- usethis::create_github_token()
-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
-```
 
 ```{r}
  gitcreds::gitcreds_set()
