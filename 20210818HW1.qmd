@@ -1,0 +1,80 @@
+---
+title: "Homework1"
+author: "Peter Kamala - 20210818"
+format: 
+  revealjs:
+    theme: solarized
+    slide-number: true
+    transition: zoom
+execute: 
+  eval: true
+  echo: false
+  message: false
+  warning: false
+fontsize: 14pt
+---
+
+## [Introduction]{style="color: blue;"}
+
+In this presentation I'll examine the <strong>UK Quarterly Gas Consumption</strong> dataset, containing UK gas consumption from the first quarter of 1960 to the fourth quarter of 1986. <br>
+
+The dataset has four quarterly record of gas consumption in millions of therms for each year from 1960 to 1986 as seen in the table below <br><br>
+
+```{r}
+library(knitr)
+library(datasets)
+library(tidyr)
+library(DT)
+library(ggplot2)
+
+# Create dataframe
+df_ukg <- data.frame(
+  Year = floor(time(UKgas)),
+  Quarter = cycle(UKgas),
+  GasConsumption = as.numeric(UKgas)
+)
+
+# Pivot the quarters
+ukgas_wider <- pivot_wider(df_ukg, names_from = Quarter, values_from = GasConsumption)
+
+# Display the pivoted table
+colnames(ukgas_wider) <- c("Year", "Q1", "Q2", "Q3", "Q4")
+datatable(ukgas_wider, caption = 'UK Quarterly Gas Consumption by Year (1960-1986)', options = list(pageLength = 9))
+
+```
+
+## [Descriptive Statistics for the quartery gas consumption variable]{style="color: blue;"}
+
+```{r}
+summary(ukgas_wider[, -1])
+```
+
+As the statistics indicate, quarter 1 has the highest recorded gas consumption, while quarter 3 has the lowest. Could be due the cold months of quarter 1 and the opposite on quarter 3.
+
+## [Plotting the UK Quarterly Gas consumption dataset]{style="color: blue;"}
+
+```{r}
+# Melting the ukgas_wider dataset for plotting
+ukgas_long <- pivot_longer(ukgas_wider, cols = -Year, names_to = "Quarter", values_to = "GasConsumption")
+
+# Plotting the dataset to show the seasonal(quarterly) patterns more clearly.
+ggplot(ukgas_long, aes(x = Year, y = GasConsumption, color = Quarter)) +
+  geom_line() +
+  labs(x = "Year", y = "Gas Consumption (millions of therms)",
+       title = "UK Quarterly Gas Consumption (1960-1986)")
+```
+
+The above plot visualizes UK quarterly gas consumption from <b>1960</b> to <b>1986</b>, relatively higher consumption is observed during quarter 1 across all the years, could be due to being a cold season, also relatively low consumption is observed on quarter 3, could be due to being a warm season.
+
+```{r}
+usethis::git_sitrep()
+```
+
+```{r}
+ usethis::create_github_token()
+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
+```
+
+```{r}
+ gitcreds::gitcreds_set()
+```
